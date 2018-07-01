@@ -1,0 +1,22 @@
+{
+  "name": "movie-prevue",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./server/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Edge00/movie-prevue.git"
+  },
+  "author": "zxy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Edge00/movie-prevue/issues"
+  },
+  "homepage": "https://github.com/Edge00/movie-prevue#readme",
+  "dependencies": {
+    "koa": "^2.5.1"
+  }
+}
