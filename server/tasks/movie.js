@@ -1,8 +1,6 @@
 const cp = require('child_process')
 const { resolve } = require('path')
-
 ;(async () => {
-
   const script = resolve(__dirname, '../crawler/movie-list')
 
   const child = cp.fork(script, [])
@@ -28,8 +26,7 @@ const { resolve } = require('path')
 
   child.on('message', data => {
     const result = data.result
-
+    // poster: 'https://img3.doubanio.com/view/photo/l_ratio_poster/public/p2518403013.jpg'
     console.log(result)
   })
-
 })()

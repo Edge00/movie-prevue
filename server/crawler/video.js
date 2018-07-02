@@ -1,14 +1,12 @@
 const puppeteer = require('puppeteer')
 const base = `https://movie.douban.com/subject/`
 const doubanId = '26627736'
-const videoBase = `https://movie.douban.com/trailer/231509/`
 
-const sleep = time => new Promise(resolve => {
-  setTimeout(resolve, time)
-})
-
+const sleep = time =>
+  new Promise(resolve => {
+    setTimeout(resolve, time)
+  })
 ;(async () => {
-
   console.log('Start visit target page')
 
   const broswer = await puppeteer.launch({
@@ -28,7 +26,10 @@ const sleep = time => new Promise(resolve => {
     const it = $('.related-pic-video')
     if (it && it.length > 0) {
       const link = it.attr('href')
-      const cover = it.attr('style').split('url(')[1].split('?')[0]
+      const cover = it
+        .attr('style')
+        .split('url(')[1]
+        .split('?')[0]
       return {
         link,
         cover
@@ -43,11 +44,10 @@ const sleep = time => new Promise(resolve => {
     await page.goto(result.link, {
       waitUntil: 'networkidle2'
     })
-    await(2000)
+    await 2000
     video = await page.evaluate(() => {
       const $ = window.$
       const it = $('source')
-      console.log(it.attr('src'), 111111)
       if (it && it.length > 0) {
         return it.attr('src')
       }
@@ -58,7 +58,7 @@ const sleep = time => new Promise(resolve => {
   const data = {
     video,
     doubanId,
-    cover: result.cover,
+    cover: result.cover
   }
 
   broswer.close()
@@ -66,5 +66,3 @@ const sleep = time => new Promise(resolve => {
   process.send(data)
   process.exit(0)
 })()
-
-
