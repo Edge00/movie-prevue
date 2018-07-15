@@ -1,6 +1,8 @@
 const qiniu = require('qiniu')
 const nanoid = require('nanoid')
 const config = require('../config')
+const mongoose = require('mongoose')
+const Movie = mongoose.model('Movie')
 
 const bucket = config.qiniu.bucket
 const mac = new qiniu.auth.digest.Mac(config.qiniu.AK, config.qiniu.SK)
@@ -24,17 +26,17 @@ const uploadToQiniu = async (url, key) => {
 }
 
 ;(async () => {
-  const movies = [
-    {
-      video: 'http://vt1.doubanio.com/201807030122/c3841c33aa8308bac2f559f962978661/view/movie/M/402310509.mp4',
-      doubanId: '26627736',
-      cover: 'https://img3.doubanio.com/img/trailer/medium/2523018626.jpg',
-      poster: 'https://img3.doubanio.com/view/photo/l_ratio_poster/public/p2518403013.jpg'
-    }
-  ]
+  const movies = await Movie.find({
+    $or: [
+      { videoKey: { $exists: false } },
+      { videoKey: null },
+      { videoKey: '' }
+    ]
+  })
 
-  movies.map(async movie => {
-    if (movie.video && !movie.key) {
+  for (let i = 0; i < movies.length; i++) {
+    const movie = movies[i]
+    if (movie.video && !movie.videoKey) {
       try {
         console.log('喵喵喵 开始上传')
         const videoData = await uploadToQiniu(movie.video, nanoid() + '.mp4')
@@ -51,18 +53,13 @@ const uploadToQiniu = async (url, key) => {
         if (posterData.ret.key) {
           movie.posterKey = posterData.ret.key
         }
+        
         console.log(movie)
+
+        await movie.save()
       } catch (err) {
         console.log(err)
       }
     }
-  })
-  // { video: 'http://vt1.doubanio.com/201807030122/c3841c33aa8308bac2f559f962978661/view/movie/M/402310509.mp4',
-  // doubanId: '26627736',
-  // cover: 'https://img3.doubanio.com/img/trailer/medium/2523018626.jpg',
-  // poster: 'https://img3.doubanio.com/view/photo/l_ratio_poster/public/p2518403013.jpg',
-  // videoKey: 'fBVMHjTMpcFEfQCAabGIL.mp4',
-  // coverKey: 'xVYkQfoVwO6PHNM_ZHLV~.jpg',
-  // posterKey: 'dRQJy0etBk7TAUfhwbxWr.jpg' }
-
+  }
 })()
