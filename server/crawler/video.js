@@ -44,7 +44,7 @@ const sleep = time =>
     await page.goto(result.link, {
       waitUntil: 'networkidle2'
     })
-    await 2000
+    await sleep(1000)
     video = await page.evaluate(() => {
       const $ = window.$
       const it = $('source')

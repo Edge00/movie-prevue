@@ -26,7 +26,6 @@ const { resolve } = require('path')
 
   child.on('message', data => {
     const result = data.result
-    // poster: 'https://img3.doubanio.com/view/photo/l_ratio_poster/public/p2518403013.jpg'
     console.log(result)
   })
 })()

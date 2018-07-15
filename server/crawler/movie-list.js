@@ -23,7 +23,7 @@ const sleep = time =>
   await page.waitForSelector('.more')
 
   for (let i = 0; i < 1; i++) {
-    await 3000
+    await sleep(3000)
     await page.click('.more')
   }
 
