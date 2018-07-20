@@ -3,7 +3,7 @@ import R from 'ramda'
 import { resolve } from 'path';
 
 import { connect, initSchemas, initAdmin } from './database/init'
-const MIDDLEWARES = ['router', 'parcel']
+const MIDDLEWARES = ['router']
 
 const useMiddlewares = app => {
   R.map(
