@@ -1,6 +1,6 @@
 const Router = require('koa-router')
 const { resolve } = require('path')
-const _ = require('_loadsh@1.0.1@loadsh')
+const _ = require('lodash')
 const glob = require('glob')
 
 const symbolPrefix = Symbol('prefix')
