@@ -3,7 +3,7 @@ import R from 'ramda'
 import { resolve } from 'path';
 
 import { connect, initSchemas, initAdmin } from './database/init'
-const MIDDLEWARES = ['router']
+const MIDDLEWARES = ['router', 'static']
 
 const useMiddlewares = app => {
   R.map(
@@ -27,8 +27,8 @@ const start = async () => {
   // require('./tasks/qiniu')
   const app = new Koa()
   await useMiddlewares(app)
-  app.listen(4455)
-  console.log('app listen at 4455')
+  app.listen(3000)
+  console.log('app listen at 3000')
 }
 
 start()
